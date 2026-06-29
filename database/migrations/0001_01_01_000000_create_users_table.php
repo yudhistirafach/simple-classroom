@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('fullname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ["lecturer", "student"]);
+            $table->enum('role', ["lecturer", "student"]);  
         });
 
         Schema::create('sessions', function (Blueprint $table) {

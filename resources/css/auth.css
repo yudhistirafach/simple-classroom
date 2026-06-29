@@ -1,0 +1,19 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+}
+
+.auth-card {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 20px 80px rgba(15, 23, 42, 0.16);
+}
+
+.auth-brand {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.form-help {
+    font-size: 0.95rem;
+}
