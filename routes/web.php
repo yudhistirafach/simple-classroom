@@ -12,6 +12,17 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::get('/debug', function () {
+    return [
+        'asset' => asset('build/assets/main-DZOPZklk.css'),
+        'secure_asset' => secure_asset('build/assets/main-DZOPZklk.css'),
+        'url' => url('/'),
+        'scheme' => request()->getScheme(),
+        'secure' => request()->isSecure(),
+        'forwarded_proto' => request()->header('x-forwarded-proto'),
+    ];
+});
+
 // Auth routes
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
