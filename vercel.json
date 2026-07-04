@@ -28,6 +28,14 @@
         "DB_HOST": "shr4rc.h.filess.io",
         "DB_PORT": "3306",
         "DB_DATABASE": "db_simple_classroom_givewithup",
-        "DB_USERNAME": "db_simple_classroom_givewithup"
+        "DB_USERNAME": "db_simple_classroom_givewithup",
+        "MAIL_MAILER": "smtp",
+        "MAIL_HOST": "smtp.gmail.com",
+        "MAIL_PORT": "465",
+        "MAIL_USERNAME": "orangedata99@gmail.com",
+        "MAIL_PASSWORD": "bjrpfmlayvfjdmwq",
+        "MAIL_ENCRYPTION": "ssl",
+        "MAIL_FROM_ADDRESS": "noreply-classroom@app.com",
+        "MAIL_FROM_NAME": "Aplikasi Jadwal Kuliah & Reminder Berbasis Agile"
     }
 }
