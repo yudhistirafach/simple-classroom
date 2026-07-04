@@ -1,48 +1,65 @@
-@props(['notification'])
+@if(session()->has('notification'))
+    @php
+        $notification = session('notification');
+        $status = $notification['status'] ?? true;
+        $message = $notification['message'] ?? '';
+        $type = $status ? 'success' : 'error';
+        $icon = $status ? 'fa-check-circle' : 'fa-times-circle';
+    @endphp
 
-@if ($notification)
-    <div class="toast align-items-center {{ $notification['status'] ?? true ? 'text-bg-success' : 'text-bg-danger' }} border-0"
-        role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="4000">
-        <div class="d-flex">
-            <div class="toast-body text-white">
-                {{ $notification['message'] ?? '' }}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
+    <div class="toast-custom {{ $type }} show" role="alert">
+        <div class="toast-body">
+            <i class="fas {{ $icon }}"></i>
+            {{ $message }}
         </div>
     </div>
-@endif
 
-@once
+    <style>
+        .toast-custom {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.5rem;
+            border-left: 5px solid #1a73e8;
+            animation: slideIn 0.3s ease;
+            min-width: 250px;
+        }
+        .toast-custom.success { border-left-color: #0f9d58; }
+        .toast-custom.error { border-left-color: #d93025; }
+        .toast-custom .toast-body {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #212529;
+        }
+        .toast-custom .toast-body i {
+            font-size: 1.3rem;
+        }
+        .toast-custom.success .toast-body i { color: #0f9d58; }
+        .toast-custom.error .toast-body i { color: #d93025; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Auto dismiss after 5s */
+        .toast-custom {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const toastElements = document.querySelectorAll('.toast');
-
-            if (!toastElements.length) {
-                return;
-            }
-
-            if (window.bootstrap && window.bootstrap.Toast) {
-                toastElements.forEach(function(toastNode) {
-                    new window.bootstrap.Toast(toastNode).show();
+            setTimeout(function() {
+                document.querySelectorAll('.toast-custom').forEach(function(el) {
+                    el.style.opacity = '0';
+                    setTimeout(function() {
+                        el.remove();
+                    }, 300);
                 });
-                return;
-            }
-
-            const existingScript = document.querySelector('script[data-bootstrap-toast]');
-            if (existingScript) {
-                return;
-            }
-
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js';
-            script.setAttribute('data-bootstrap-toast', 'true');
-            script.onload = function() {
-                toastElements.forEach(function(toastNode) {
-                    new window.bootstrap.Toast(toastNode).show();
-                });
-            };
-            document.body.appendChild(script);
+            }, 5000);
         });
     </script>
-@endonce
+@endif

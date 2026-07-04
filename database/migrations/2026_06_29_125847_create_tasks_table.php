@@ -6,31 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('class_id');
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->string('title');
-            $table->text('description');
-            $table->enum('status', ["Expired", "Active"]);
+            $table->text('description')->nullable();
+            $table->enum('status', ['Active', 'Expired'])->default('Active');
             $table->timestamp('deadline_at');
-            $table->timestamp('updated_at');
-
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tasks');

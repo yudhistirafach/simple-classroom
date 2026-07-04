@@ -6,29 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('class_id');
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->string('title');
-            $table->text('description');
-            $table->date('expired_at');
-            
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->text('description')->nullable();
+            $table->date('expired_at')->nullable();
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('announcements');

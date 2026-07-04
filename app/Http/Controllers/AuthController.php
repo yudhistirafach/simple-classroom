@@ -97,4 +97,16 @@ class AuthController extends Controller
             'message' => 'Berhasil login. Selamat Datang.',
         ]);
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+
+        return redirect('/')->with('notification', [
+            'status' => true,
+            'message' => 'Anda telah logout.',
+        ]);
+    }
 }
