@@ -83,6 +83,15 @@ class AuthController extends Controller
         return view('lecturer.dashboard', ['user' => Auth::user()]);
     }
 
+    public function rootRedirect()
+    {
+        if (Auth::check()) {
+            return $this->redirectToDashboard(Auth::user());
+        }
+
+        return redirect()->route('login');
+    }
+
     private function redirectToDashboard(User $user)
     {
         if ($user->role === 'lecturer') {
